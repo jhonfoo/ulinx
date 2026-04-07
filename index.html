@@ -47,7 +47,7 @@
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
   .hero-glow {
-    background: radial-gradient(circle at center, rgba(204, 34, 238, 0.06) 0%, rgba(255,255,255,0) 70%);
+    background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.08) 0%, rgba(255,255,255,0) 70%);
   }
   .brand-gradient-text {
     background: linear-gradient(to right, #cc22ee, #2244ff);
@@ -58,9 +58,8 @@
   .brand-gradient-bg {
     background: linear-gradient(to right, #cc22ee, #2244ff);
   }
-  .card-top-border {
-    border-top: 3px solid transparent;
-    border-image: linear-gradient(to right, #cc22ee, #2244ff) 1;
+  .card-left-border {
+    border-left: 3px solid #7c3aed;
   }
   .chart-grid {
     background-image:
@@ -141,7 +140,7 @@
 </main>
 
 <!-- 实时成交悬浮窗（固定顶部，导航栏下方） -->
-<div id="tickerFloat" class="fixed left-0 right-0 z-40 bg-white border-b border-gray-100 shadow-sm" style="top:57px">
+<div id="tickerFloat" class="fixed left-0 right-0 z-40 bg-[#f5f3ff] border-b border-purple-100 shadow-sm" style="top:57px">
   <div class="relative overflow-hidden h-[44px] flex items-center ticker-mask">
     <div class="animate-ticker flex items-center whitespace-nowrap">
     <!-- Group 1 -->
@@ -215,30 +214,30 @@
 </div>
 
 <!-- ② 收益展示 -->
-<section id="earnings" class="py-16 bg-[#f8f9fb]">
+<section id="earnings" class="py-16 bg-[#f7f5ff]">
   <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-16">
 
     <!-- Section 标题 -->
     <div class="text-center" data-aos="fade-up">
-      <h2 class="text-3xl md:text-4xl font-extrabold font-headline brand-gradient-text">你能赚多少？</h2>
+      <h2 class="text-3xl md:text-4xl font-extrabold font-headline text-[#1e1b4b]">你能赚多少？</h2>
       <p class="mt-3 text-gray-500 text-lg">真实数据，透明收益</p>
     </div>
 
     <!-- 平台数据卡片 -->
     <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
-      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
         <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">累计用户</span>
         <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">10,000+</h3>
       </div>
-      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
         <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">日均成交量（U）</span>
         <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">500,000+</h3>
       </div>
-      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
         <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">累计返佣（元）</span>
         <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">1,200,000+</h3>
       </div>
-      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
         <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">平台成交笔数</span>
         <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">80,000+</h3>
       </div>
@@ -287,12 +286,12 @@
 </section>
 
 <!-- ③ 平台介绍 -->
-<section id="about" class="py-16 bg-[#f8f9fb]">
+<section id="about" class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-8">
 
     <!-- 标题 + 描述 -->
     <div class="flex flex-col items-center text-center space-y-6 mb-16" data-aos="fade-up">
-      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight font-headline brand-gradient-text">
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight font-headline text-[#1e1b4b]">
         什么是 ULINX？
       </h2>
       <p class="text-gray-500 text-lg leading-relaxed max-w-[600px]">
@@ -302,23 +301,23 @@
 
     <!-- 三张亮点卡片 -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24" data-aos="fade-up" data-aos-delay="100">
-      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600">bolt</span>
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white">bolt</span>
         </div>
         <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">快速撮合</h3>
         <p class="text-gray-500 leading-relaxed">订单自动匹配，无需手动对接</p>
       </div>
-      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600">all_inclusive</span>
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white">all_inclusive</span>
         </div>
         <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">无限做单</h3>
         <p class="text-gray-500 leading-relaxed">不限次数，随时挂单随时收益</p>
       </div>
-      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600">verified_user</span>
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-left-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white">verified_user</span>
         </div>
         <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">安全保障</h3>
         <p class="text-gray-500 leading-relaxed">冻卡情况平台承担损失，全程无忧</p>
@@ -412,12 +411,12 @@
 </section>
 
 <!-- ⑤ 核心优势 -->
-<section id="advantages" class="py-16 bg-white">
+<section id="advantages" class="py-16 bg-[#f7f5ff]">
   <div class="max-w-7xl mx-auto px-6 md:px-12">
 
     <!-- 标题 -->
     <div class="text-center mb-16" data-aos="fade-up">
-      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight brand-gradient-text font-headline mb-4">
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-[#1e1b4b] font-headline mb-4">
         为什么选择 ULINX？
       </h2>
       <p class="text-gray-500 text-lg md:text-xl font-medium">领先同类产品的四大核心优势</p>
@@ -427,9 +426,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10" data-aos="fade-up" data-aos-delay="100">
 
       <!-- 极速撮合 -->
-      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
-        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
-        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+      <div class="bg-white p-10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] card-left-border flex flex-col items-start text-left transition-all duration-300 hover:-translate-y-1">
+        <div class="mb-6 p-4 rounded-xl bg-[#7c3aed] text-white">
           <span class="material-symbols-outlined text-4xl">flash_on</span>
         </div>
         <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">极速撮合</h3>
@@ -437,9 +435,8 @@
       </div>
 
       <!-- 无限做单 -->
-      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
-        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
-        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+      <div class="bg-white p-10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] card-left-border flex flex-col items-start text-left transition-all duration-300 hover:-translate-y-1">
+        <div class="mb-6 p-4 rounded-xl bg-[#7c3aed] text-white">
           <span class="material-symbols-outlined text-4xl">all_inclusive</span>
         </div>
         <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">无限做单</h3>
@@ -447,9 +444,8 @@
       </div>
 
       <!-- 收款方式保护 -->
-      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
-        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
-        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+      <div class="bg-white p-10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] card-left-border flex flex-col items-start text-left transition-all duration-300 hover:-translate-y-1">
+        <div class="mb-6 p-4 rounded-xl bg-[#7c3aed] text-white">
           <span class="material-symbols-outlined text-4xl">security</span>
         </div>
         <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">收款方式保护</h3>
@@ -457,9 +453,8 @@
       </div>
 
       <!-- 冻卡赔付兜底 -->
-      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
-        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
-        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+      <div class="bg-white p-10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] card-left-border flex flex-col items-start text-left transition-all duration-300 hover:-translate-y-1">
+        <div class="mb-6 p-4 rounded-xl bg-[#7c3aed] text-white">
           <span class="material-symbols-outlined text-4xl">shield</span>
         </div>
         <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">冻卡赔付兜底</h3>
@@ -471,12 +466,12 @@
 </section>
 
 <!-- ⑥ 操作流程 -->
-<section id="process" class="py-16 bg-[#f8f9fb]">
+<section id="process" class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-8">
 
     <!-- 标题 -->
     <div class="text-center mb-24 space-y-4" data-aos="fade-up">
-      <h2 class="text-3xl md:text-5xl font-extrabold brand-gradient-text font-headline leading-tight">
+      <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e1b4b] font-headline leading-tight">
         如何开始赚钱？
       </h2>
       <p class="text-xl text-gray-500 font-medium">四步完成挂单，收益轻松到手</p>
@@ -547,39 +542,39 @@
 </section>
 
 <!-- ⑥ 安全保障 -->
-<section id="security" class="py-16 bg-white">
+<section id="security" class="py-16 bg-[#0d0a1a]">
   <div class="max-w-7xl mx-auto px-8 flex flex-col items-center">
 
     <div class="text-center mb-12 max-w-2xl" data-aos="fade-up">
-      <h2 class="text-3xl md:text-5xl font-headline font-extrabold tracking-tight brand-gradient-text mb-4">
+      <h2 class="text-3xl md:text-5xl font-headline font-extrabold tracking-tight text-white mb-4">
         你的资金安全，我们负责
       </h2>
-      <p class="text-xl text-gray-500 font-medium leading-relaxed">
+      <p class="text-xl text-white/60 font-medium leading-relaxed">
         完善的风控体系，让你挂单无后顾之忧
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full" data-aos="fade-up" data-aos-delay="100">
-      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600">shield</span>
+      <div class="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white">shield</span>
         </div>
-        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">冻卡平台赔付</h3>
-        <p class="text-gray-500 leading-relaxed">出现冻卡情况第一时间联系客服报备，损失由平台全额承担</p>
+        <h3 class="text-xl font-headline font-bold text-white mb-4">冻卡平台赔付</h3>
+        <p class="text-white/50 leading-relaxed">出现冻卡情况第一时间联系客服报备，损失由平台全额承担</p>
       </div>
-      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600">support_agent</span>
+      <div class="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white">support_agent</span>
         </div>
-        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">实时在线客服</h3>
-        <p class="text-gray-500 leading-relaxed">7×24小时专属客服在线，任何问题随时响应处理</p>
+        <h3 class="text-xl font-headline font-bold text-white mb-4">实时在线客服</h3>
+        <p class="text-white/50 leading-relaxed">7×24小时专属客服在线，任何问题随时响应处理</p>
       </div>
-      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-4xl text-purple-600" style="font-variation-settings:'FILL' 1">lock</span>
+      <div class="bg-white/5 backdrop-blur border border-white/10 rounded-xl p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-[#7c3aed] flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-white" style="font-variation-settings:'FILL' 1">lock</span>
         </div>
-        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">严格资金管控</h3>
-        <p class="text-gray-500 leading-relaxed">平台对资金流转实施严格管控，保障每一笔交易安全</p>
+        <h3 class="text-xl font-headline font-bold text-white mb-4">严格资金管控</h3>
+        <p class="text-white/50 leading-relaxed">平台对资金流转实施严格管控，保障每一笔交易安全</p>
       </div>
     </div>
 
@@ -635,7 +630,7 @@
 <section id="contact" class="bg-white"></section>
 
 <!-- ⑧ Footer -->
-<footer class="bg-[#f5f6f7] border-t border-gray-100 py-8">
+<footer class="bg-[#0d0a1a] border-t border-white/10 py-8">
   <div class="max-w-7xl mx-auto px-8 flex flex-col items-center gap-3">
     <div class="flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="28" height="28">
@@ -654,7 +649,7 @@
       </svg>
       <span class="ml-2 font-black brand-gradient-text font-headline tracking-tight">ULINX</span>
     </div>
-    <p class="text-sm text-gray-400">© 2024 ULINX. All rights reserved.</p>
+    <p class="text-sm text-white/40">© 2024 ULINX. All rights reserved.</p>
   </div>
 </footer>
 
