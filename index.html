@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html class="light" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ULINX — 专业 OTC 挂单平台</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-background": "#2c2f30",
+          "on-tertiary": "#f4f2ff",
+          "outline": "#757778",
+          "surface-container-low": "#eff1f2",
+          "background": "#f5f6f7",
+          "surface": "#f5f6f7",
+          "primary": "#9c00b9",
+          "on-surface": "#2c2f30",
+          "on-surface-variant": "#595c5d",
+          "outline-variant": "#abadae",
+          "surface-container-lowest": "#ffffff",
+          "secondary": "#1a3efb",
+        },
+        borderRadius: {
+          DEFAULT: "1rem",
+          lg: "2rem",
+          xl: "3rem",
+          full: "9999px"
+        },
+        fontFamily: {
+          headline: ["Manrope", "sans-serif"],
+          body: ["Inter", "sans-serif"],
+          label: ["Inter", "sans-serif"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .hero-glow {
+    background: radial-gradient(circle at center, rgba(204, 34, 238, 0.06) 0%, rgba(255,255,255,0) 70%);
+  }
+  .brand-gradient-text {
+    background: linear-gradient(to right, #cc22ee, #2244ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .brand-gradient-bg {
+    background: linear-gradient(to right, #cc22ee, #2244ff);
+  }
+  .card-top-border {
+    border-top: 3px solid transparent;
+    border-image: linear-gradient(to right, #cc22ee, #2244ff) 1;
+  }
+  .chart-grid {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .trend-line {
+    fill: none;
+    stroke: url(#trendGradient);
+    stroke-width: 4;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 8px rgba(34,68,255,0.6)) drop-shadow(0 0 12px rgba(204,34,238,0.4));
+  }
+  .candle-up { fill: #10b981; }
+  .candle-down { fill: #ef4444; }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<style>
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-ticker { display: flex; width: max-content; animation: scroll 60s linear infinite; }
+  .ticker-mask {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+</style>
+<body class="bg-surface-container-lowest font-body text-on-surface">
+
+<!-- ① 导航栏 -->
+<nav class="sticky top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-gray-100">
+  <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto w-full">
+    <div class="flex items-center">
+      <!-- SVG Logo -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="36" height="36">
+        <defs>
+          <linearGradient id="navGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#cc22ee"/>
+            <stop offset="100%" stop-color="#2244ff"/>
+          </linearGradient>
+        </defs>
+        <path d="M 82,80 L 82,198 Q 82,226 109,226 Q 136,226 136,198 L 136,80"
+              fill="none" stroke="url(#navGrad)" stroke-width="28"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 136,80 L 258,80 L 258,188 Q 258,278 197,278 Q 136,278 136,226"
+              fill="none" stroke="url(#navGrad)" stroke-width="28"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="ml-2 text-xl font-black brand-gradient-text font-headline tracking-tight">ULINX</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ① Hero Section -->
+<main id="hero" class="relative flex flex-col items-center justify-center py-24 overflow-hidden" style="min-height:90vh">
+  <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+  <div class="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
+    <div class="space-y-8 max-w-4xl">
+      <h1 class="font-headline font-extrabold tracking-tight leading-[1.1] brand-gradient-text px-4 text-3xl md:text-5xl lg:text-6xl">
+        专业 OTC 挂单，稳定收益无上限
+      </h1>
+      <p class="font-body text-lg md:text-xl text-[#64748b] font-medium tracking-wide max-w-2xl mx-auto leading-relaxed">
+        充币即挂单，快速撮合成交，高额返佣持续到账
+      </p>
+      <div class="pt-6">
+        <a href="#earnings" class="group relative inline-flex items-center justify-center px-10 py-5 rounded-full brand-gradient-bg text-white font-semibold text-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_40px_rgba(204,34,238,0.25)]">
+          立即了解
+          <span class="material-symbols-outlined ml-2 transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] brand-gradient-bg opacity-[0.04] blur-[120px] rounded-full pointer-events-none"></div>
+  <div class="absolute top-[10%] right-[-5%] w-[300px] h-[300px] brand-gradient-bg opacity-[0.03] blur-[100px] rounded-full pointer-events-none"></div>
+</main>
+
+<!-- 实时成交悬浮窗（固定顶部，导航栏下方） -->
+<div id="tickerFloat" class="fixed left-0 right-0 z-40 bg-white border-b border-gray-100 shadow-sm" style="top:57px">
+  <div class="relative overflow-hidden h-[44px] flex items-center ticker-mask">
+    <div class="animate-ticker flex items-center whitespace-nowrap">
+    <!-- Group 1 -->
+    <div class="flex items-center">
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">张**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">112元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">李**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">王**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">52元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">陈**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">168元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">刘**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">70元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">赵**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">孙**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">126元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">周**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">28元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">吴**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">147元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">郑**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">98元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">冯**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">35元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">蒋**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">122元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">韩**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">157元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">杨**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">900 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">31元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">朱**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">秦**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,300 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">80元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">许**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">133元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">何**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">42元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">邓**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,100 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">143元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">曹**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">91元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">彭**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">谢**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">63元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">唐**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">105元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">钱**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">161元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">江**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">700 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">24元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">史**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,400 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">84元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">魏**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,900 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">171元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">薛**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,100 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">38元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">林**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,300 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">115元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">高**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,400 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">154元</span></div>
+    </div>
+    <!-- 复制一份保证无缝循环 -->
+    <div class="flex items-center">
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">张**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">112元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">李**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">王**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">52元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">陈**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">168元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">刘**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">70元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">赵**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">孙**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">126元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">周**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">28元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">吴**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">147元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">郑**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">98元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">冯**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">35元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">蒋**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">122元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">韩**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,500 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">157元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">杨**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">900 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">31元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">朱**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">秦**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,300 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">80元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">许**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">133元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">何**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,200 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">42元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">邓**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,100 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">143元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">曹**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">91元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">彭**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">5,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">175元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">谢**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,800 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">63元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">唐**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,000 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">105元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">钱**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,600 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">161元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">江**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">700 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">24元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">史**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">2,400 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">84元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">魏**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,900 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">171元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">薛**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">1,100 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">38元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">林**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">3,300 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">115元</span></div>
+      <div class="flex items-center px-6 gap-2 text-[13px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-gray-400">高**</span><span class="text-gray-400">出售</span><span class="bg-gradient-to-r from-[#cc22ee] to-[#2244ff] bg-clip-text text-transparent font-bold">4,400 U</span><span class="text-gray-300">·</span><span class="text-gray-400">收益</span><span class="text-emerald-500 font-bold">154元</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ② 收益展示 -->
+<section id="earnings" class="py-16 bg-[#f8f9fb]">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-16">
+
+    <!-- Section 标题 -->
+    <div class="text-center" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold font-headline brand-gradient-text">你能赚多少？</h2>
+      <p class="mt-3 text-gray-500 text-lg">真实数据，透明收益</p>
+    </div>
+
+    <!-- 平台数据卡片 -->
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+        <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">累计用户</span>
+        <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">10,000+</h3>
+      </div>
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+        <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">日均成交量（U）</span>
+        <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">500,000+</h3>
+      </div>
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+        <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">累计返佣（元）</span>
+        <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">1,200,000+</h3>
+      </div>
+      <div class="bg-white rounded-xl p-8 shadow-[0_12px_32px_rgba(26,62,251,0.04)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-1">
+        <span class="text-gray-500 text-sm font-medium mb-3 tracking-wide">平台成交笔数</span>
+        <h3 class="text-4xl font-extrabold brand-gradient-text font-headline">80,000+</h3>
+      </div>
+    </div>
+
+    <!-- 收益计算器 -->
+    <div class="w-full max-w-[600px]" data-aos="fade-up" data-aos-delay="200">
+      <div class="bg-white rounded-xl p-10 shadow-[0_20px_48px_rgba(26,62,251,0.06)] flex flex-col gap-8">
+        <div class="text-center">
+          <h3 class="text-2xl font-bold font-headline text-gray-800">收益计算器</h3>
+          <div class="h-1 w-12 brand-gradient-bg mx-auto mt-3 rounded-full"></div>
+        </div>
+        <div class="space-y-6">
+          <div class="flex flex-col gap-3">
+            <label class="text-sm font-semibold text-gray-500">每日交易额（元）</label>
+            <div class="relative">
+              <input id="calcInput" class="w-full bg-gray-50 border border-gray-100 rounded-lg px-4 py-4 text-2xl font-bold font-headline focus:outline-none focus:ring-2 focus:ring-purple-200 transition-all text-gray-800" type="number" value="10000" min="0" max="1000000"/>
+            </div>
+            <input id="calcSlider" class="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-purple-600" type="range" min="0" max="1000000" step="1000" value="10000"/>
+            <div class="flex justify-between text-xs text-gray-300 font-bold tracking-widest uppercase">
+              <span>0</span>
+              <span>1,000,000</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-50 rounded-xl p-6">
+              <span class="text-xs font-bold text-gray-400 block mb-2 uppercase tracking-wider">日收益</span>
+              <div class="flex items-baseline gap-1">
+                <span id="dailyResult" class="text-2xl font-extrabold brand-gradient-text font-headline">350</span>
+                <span class="text-sm font-bold text-gray-400">元</span>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+              <span class="text-xs font-bold text-gray-400 block mb-2 uppercase tracking-wider">7日累计</span>
+              <div class="flex items-baseline gap-1">
+                <span id="weeklyResult" class="text-2xl font-extrabold brand-gradient-text font-headline">2,450</span>
+                <span class="text-sm font-bold text-gray-400">元</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ③ 平台介绍 -->
+<section id="about" class="py-16 bg-[#f8f9fb]">
+  <div class="max-w-7xl mx-auto px-8">
+
+    <!-- 标题 + 描述 -->
+    <div class="flex flex-col items-center text-center space-y-6 mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight font-headline brand-gradient-text">
+        什么是 ULINX？
+      </h2>
+      <p class="text-gray-500 text-lg leading-relaxed max-w-[600px]">
+        ULINX 是一个专业的 USDT 场外交易平台，为币商提供稳定、高效的挂单撮合服务。平台无需 KYC，操作简单，成交迅速，是目前市场上体验最佳的 OTC 产品之一。
+      </p>
+    </div>
+
+    <!-- 三张亮点卡片 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600">bolt</span>
+        </div>
+        <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">快速撮合</h3>
+        <p class="text-gray-500 leading-relaxed">订单自动匹配，无需手动对接</p>
+      </div>
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600">all_inclusive</span>
+        </div>
+        <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">无限做单</h3>
+        <p class="text-gray-500 leading-relaxed">不限次数，随时挂单随时收益</p>
+      </div>
+      <div class="bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] card-top-border flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600">verified_user</span>
+        </div>
+        <h3 class="text-xl font-bold mb-4 text-gray-800 font-headline">安全保障</h3>
+        <p class="text-gray-500 leading-relaxed">冻卡情况平台承担损失，全程无忧</p>
+      </div>
+    </div>
+
+    <!-- 图文区域 -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center" data-aos="fade-up" data-aos-delay="150">
+      <!-- 交易图表 Widget -->
+      <div class="lg:col-span-7 rounded-xl overflow-hidden shadow-2xl" style="background:#0d0a1a; position:relative;">
+        <!-- Top Bar -->
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center gap-3">
+            <span class="text-white text-xl font-extrabold tracking-tight">USDT/CNY</span>
+            <div style="background:rgba(255,255,255,0.05)" class="px-2 py-1 rounded text-xs text-slate-400 font-bold uppercase tracking-widest">SPOT</div>
+          </div>
+          <div class="bg-emerald-500/10 text-emerald-400 px-4 py-1.5 rounded-full text-sm font-bold flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs" style="font-variation-settings:'FILL' 1">arrow_drop_up</span>
+            +1.52%
+          </div>
+        </div>
+        <!-- Chart Area -->
+        <div class="chart-grid relative overflow-hidden" style="height:240px">
+          <svg class="w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#cc22ee"/>
+                <stop offset="100%" stop-color="#2244ff"/>
+              </linearGradient>
+            </defs>
+            <rect class="candle-up" height="40" width="12" x="50" y="280"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="56" x2="56" y1="260" y2="330"/>
+            <rect class="candle-down" height="25" width="12" x="90" y="290"/>
+            <line stroke="#ef4444" stroke-width="1.5" x1="96" x2="96" y1="280" y2="325"/>
+            <rect class="candle-up" height="50" width="12" x="130" y="250"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="136" x2="136" y1="240" y2="310"/>
+            <rect class="candle-up" height="45" width="12" x="170" y="220"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="176" x2="176" y1="210" y2="280"/>
+            <rect class="candle-down" height="30" width="12" x="210" y="240"/>
+            <line stroke="#ef4444" stroke-width="1.5" x1="216" x2="216" y1="230" y2="280"/>
+            <rect class="candle-up" height="60" width="12" x="250" y="200"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="256" x2="256" y1="180" y2="270"/>
+            <rect class="candle-up" height="55" width="12" x="290" y="160"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="296" x2="296" y1="150" y2="230"/>
+            <rect class="candle-down" height="20" width="12" x="330" y="180"/>
+            <line stroke="#ef4444" stroke-width="1.5" x1="336" x2="336" y1="170" y2="210"/>
+            <rect class="candle-up" height="80" width="12" x="370" y="120"/>
+            <line stroke="#10b981" stroke-width="1.5" x1="376" x2="376" y1="100" y2="220"/>
+            <rect class="candle-down" height="40" width="12" x="410" y="140"/>
+            <line stroke="#ef4444" stroke-width="1.5" x1="416" x2="416" y1="130" y2="200"/>
+            <rect class="candle-up" height="50" width="12" x="450" y="110"/>
+            <rect class="candle-up" height="30" width="12" x="490" y="90"/>
+            <rect class="candle-down" height="40" width="12" x="530" y="100"/>
+            <rect class="candle-up" height="60" width="12" x="570" y="70"/>
+            <rect class="candle-up" height="40" width="12" x="610" y="50"/>
+            <rect class="candle-down" height="30" width="12" x="650" y="80"/>
+            <rect class="candle-up" height="70" width="12" x="690" y="40"/>
+            <rect class="candle-down" height="35" width="12" x="730" y="60"/>
+            <rect class="candle-up" height="50" width="12" x="770" y="30"/>
+            <rect class="candle-up" height="40" width="12" x="810" y="20"/>
+            <rect class="candle-down" height="20" width="12" x="850" y="40"/>
+            <rect class="candle-up" height="50" width="12" x="890" y="10"/>
+            <path class="trend-line" d="M 0,350 Q 150,320 250,220 T 500,100 T 750,60 T 1000,20"/>
+          </svg>
+          <div class="absolute right-0 top-5 flex items-center">
+            <div style="height:1px;width:100%;background:rgba(59,130,246,0.3)"></div>
+            <div class="bg-blue-600 text-white text-xs px-2 py-0.5 font-bold rounded-l">7.2415</div>
+          </div>
+        </div>
+        <!-- Bottom Bar -->
+        <div style="background:rgba(15,23,42,0.4);border-top:1px solid rgba(255,255,255,0.05)" class="px-6 py-4">
+          <div class="flex items-center justify-between text-xs font-medium">
+            <div class="flex flex-col gap-1"><span class="text-slate-500 uppercase">成交量</span><span class="text-slate-300 font-bold">1,284,500U</span></div>
+            <div class="flex flex-col gap-1"><span class="text-slate-500 uppercase">24H高</span><span class="text-slate-300 font-bold">7.31</span></div>
+            <div class="flex flex-col gap-1"><span class="text-slate-500 uppercase">24H低</span><span class="text-slate-300 font-bold">7.18</span></div>
+            <div class="flex flex-col gap-1"><span class="text-slate-500 uppercase">返佣率</span><span class="text-slate-300 font-bold">1.50%</span></div>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:-5rem;left:-5rem;width:16rem;height:16rem;background:rgba(147,51,234,0.1);filter:blur(100px);pointer-events:none"></div>
+        <div style="position:absolute;top:-5rem;right:-5rem;width:16rem;height:16rem;background:rgba(37,99,235,0.1);filter:blur(100px);pointer-events:none"></div>
+      </div>
+      <!-- 右侧文字 -->
+      <div class="lg:col-span-5 space-y-6">
+        <span class="inline-block brand-gradient-bg text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider">NEXT GENERATION OTC</span>
+        <h3 class="text-3xl md:text-4xl font-black text-gray-800 font-headline leading-tight">重新定义<br/>数字货币场外交易</h3>
+        <p class="text-gray-500 text-lg leading-relaxed">ULINX 通过先进的撮合算法与严苛的风险控制体系，为全球币商建立起一个安全、透明、高效的交易平台。我们不仅是工具，更是您在数字金融领域的增长引擎。</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑤ 核心优势 -->
+<section id="advantages" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+
+    <!-- 标题 -->
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight brand-gradient-text font-headline mb-4">
+        为什么选择 ULINX？
+      </h2>
+      <p class="text-gray-500 text-lg md:text-xl font-medium">领先同类产品的四大核心优势</p>
+    </div>
+
+    <!-- 2×2 卡片网格 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10" data-aos="fade-up" data-aos-delay="100">
+
+      <!-- 极速撮合 -->
+      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
+        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
+        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+          <span class="material-symbols-outlined text-4xl">flash_on</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">极速撮合</h3>
+        <p class="text-gray-500 text-lg leading-relaxed">智能匹配算法，订单秒级成交，无需等待。在波动的市场中为您争取最理想的交易时机。</p>
+      </div>
+
+      <!-- 无限做单 -->
+      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
+        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
+        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+          <span class="material-symbols-outlined text-4xl">all_inclusive</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">无限做单</h3>
+        <p class="text-gray-500 text-lg leading-relaxed">无次数限制，随时发布挂单，收益持续累积。为职业交易员提供高频次、大额度的操作空间。</p>
+      </div>
+
+      <!-- 收款方式保护 -->
+      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
+        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
+        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+          <span class="material-symbols-outlined text-4xl">security</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">收款方式保护</h3>
+        <p class="text-gray-500 text-lg leading-relaxed">多重机制保护挂单用户收款方式，智能风控识别异常资金流向，最大限度降低操作风险。</p>
+      </div>
+
+      <!-- 冻卡赔付兜底 -->
+      <div class="relative bg-white p-10 rounded-xl shadow-[0_12px_32px_rgba(26,62,251,0.06)] flex flex-col items-start text-left overflow-hidden transition-all duration-300 hover:-translate-y-1">
+        <div class="absolute top-0 left-0 w-full h-1.5 brand-gradient-bg"></div>
+        <div class="mb-6 p-4 rounded-xl bg-gray-50 text-purple-600">
+          <span class="material-symbols-outlined text-4xl">shield</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 font-headline mb-3">冻卡赔付兜底</h3>
+        <p class="text-gray-500 text-lg leading-relaxed">遭遇冻卡损失由平台全额赔付，建立千万级先行赔付基金，让您做单无后顾之忧。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ 操作流程 -->
+<section id="process" class="py-16 bg-[#f8f9fb]">
+  <div class="max-w-7xl mx-auto px-8">
+
+    <!-- 标题 -->
+    <div class="text-center mb-24 space-y-4" data-aos="fade-up">
+      <h2 class="text-3xl md:text-5xl font-extrabold brand-gradient-text font-headline leading-tight">
+        如何开始赚钱？
+      </h2>
+      <p class="text-xl text-gray-500 font-medium">四步完成挂单，收益轻松到手</p>
+    </div>
+
+    <!-- 四步流程 -->
+    <div class="relative" data-aos="fade-up" data-aos-delay="100">
+      <!-- 连接虚线（桌面端） -->
+      <div class="absolute top-12 left-[10%] right-[10%] h-[2px] border-t-2 border-dashed border-gray-200 hidden md:block"></div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
+
+        <!-- Step 1 -->
+        <div class="group flex flex-col items-center text-center">
+          <div class="relative mb-8">
+            <div class="w-24 h-24 rounded-full brand-gradient-bg flex items-center justify-center text-white text-3xl font-bold z-10 relative shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">1</div>
+            <div class="absolute inset-0 bg-purple-400 blur-2xl opacity-10 rounded-full scale-150"></div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">充值 USDT</h3>
+          <p class="text-gray-500 leading-relaxed px-2">使用 TRC-20 通道转入平台，到账快、手续费极低</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="group flex flex-col items-center text-center">
+          <div class="relative mb-8">
+            <div class="w-24 h-24 rounded-full brand-gradient-bg flex items-center justify-center text-white text-3xl font-bold z-10 relative shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">2</div>
+            <div class="absolute inset-0 bg-purple-400 blur-2xl opacity-10 rounded-full scale-150"></div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">发布挂单</h3>
+          <p class="text-gray-500 leading-relaxed px-2">选择出售金额（150U-5000U），绑定收款方式，一键发布</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="group flex flex-col items-center text-center">
+          <div class="relative mb-8">
+            <div class="w-24 h-24 rounded-full brand-gradient-bg flex items-center justify-center text-white text-3xl font-bold z-10 relative shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">3</div>
+            <div class="absolute inset-0 bg-purple-400 blur-2xl opacity-10 rounded-full scale-150"></div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">确认收款</h3>
+          <p class="text-gray-500 leading-relaxed px-2">平台自动撮合买家，核对金额无误后放币</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="group flex flex-col items-center text-center">
+          <div class="relative mb-8">
+            <div class="w-24 h-24 rounded-full brand-gradient-bg flex items-center justify-center text-white text-3xl font-bold z-10 relative shadow-xl shadow-purple-200 group-hover:scale-110 transition-transform duration-300">4</div>
+            <div class="absolute inset-0 bg-purple-400 blur-2xl opacity-10 rounded-full scale-150"></div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">获得收益</h3>
+          <p class="text-gray-500 leading-relaxed px-2">订单完成即获返佣，循环挂单，收益持续累积</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA 卡片 -->
+    <div class="mt-24 bg-white rounded-3xl p-12 flex flex-col md:flex-row items-center justify-between shadow-sm relative overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+      <div class="relative z-10">
+        <h4 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">准备好开启您的收益之旅了吗？</h4>
+        <p class="text-gray-500">立即联系我们，加入 ULINX，享受极速撮合与安全保障。</p>
+      </div>
+      <div class="relative z-10 mt-8 md:mt-0">
+        <a href="#contact" class="inline-block px-8 py-4 rounded-xl font-bold brand-gradient-bg text-white hover:opacity-90 transition-all shadow-lg shadow-purple-200">立即联系我们</a>
+      </div>
+      <div class="absolute -right-24 -bottom-24 w-96 h-96 brand-gradient-bg opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑥ 安全保障 -->
+<section id="security" class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-8 flex flex-col items-center">
+
+    <div class="text-center mb-12 max-w-2xl" data-aos="fade-up">
+      <h2 class="text-3xl md:text-5xl font-headline font-extrabold tracking-tight brand-gradient-text mb-4">
+        你的资金安全，我们负责
+      </h2>
+      <p class="text-xl text-gray-500 font-medium leading-relaxed">
+        完善的风控体系，让你挂单无后顾之忧
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600">shield</span>
+        </div>
+        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">冻卡平台赔付</h3>
+        <p class="text-gray-500 leading-relaxed">出现冻卡情况第一时间联系客服报备，损失由平台全额承担</p>
+      </div>
+      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600">support_agent</span>
+        </div>
+        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">实时在线客服</h3>
+        <p class="text-gray-500 leading-relaxed">7×24小时专属客服在线，任何问题随时响应处理</p>
+      </div>
+      <div class="bg-white shadow-[0_12px_32px_rgba(26,62,251,0.06)] rounded-xl card-top-border p-10 flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+        <div class="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-4xl text-purple-600" style="font-variation-settings:'FILL' 1">lock</span>
+        </div>
+        <h3 class="text-xl font-headline font-bold text-gray-800 mb-4">严格资金管控</h3>
+        <p class="text-gray-500 leading-relaxed">平台对资金流转实施严格管控，保障每一笔交易安全</p>
+      </div>
+    </div>
+
+    <div class="mt-12 w-full overflow-hidden rounded-xl h-64 relative" data-aos="fade-up" data-aos-delay="200">
+      <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="bannerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0d0a1a"/><stop offset="100%" stop-color="#0a1240"/>
+          </linearGradient>
+          <radialGradient id="glow1" cx="70%" cy="50%" r="40%">
+            <stop offset="0%" stop-color="#cc22ee" stop-opacity="0.25"/><stop offset="100%" stop-color="#cc22ee" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow2" cx="90%" cy="30%" r="30%">
+            <stop offset="0%" stop-color="#2244ff" stop-opacity="0.2"/><stop offset="100%" stop-color="#2244ff" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="blur2"><feGaussianBlur stdDeviation="1.5"/></filter>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#bannerBg)"/>
+        <rect width="100%" height="100%" fill="url(#glow1)"/>
+        <rect width="100%" height="100%" fill="url(#glow2)"/>
+        <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+          <line x1="0" y1="64" x2="100%" y2="64"/><line x1="0" y1="128" x2="100%" y2="128"/>
+          <line x1="0" y1="192" x2="100%" y2="192"/><line x1="200" y1="0" x2="200" y2="100%"/>
+          <line x1="400" y1="0" x2="400" y2="100%"/><line x1="600" y1="0" x2="600" y2="100%"/>
+          <line x1="800" y1="0" x2="800" y2="100%"/>
+        </g>
+        <g filter="url(#blur2)">
+          <line x1="60%" y1="30%" x2="75%" y2="60%" stroke="#cc22ee" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="75%" y1="60%" x2="85%" y2="25%" stroke="#9933ff" stroke-opacity="0.3" stroke-width="1"/>
+          <line x1="85%" y1="25%" x2="95%" y2="55%" stroke="#2244ff" stroke-opacity="0.4" stroke-width="1"/>
+        </g>
+        <g>
+          <circle cx="60%" cy="30%" r="4" fill="#cc22ee" opacity="0.9"/>
+          <circle cx="60%" cy="30%" r="10" fill="#cc22ee" opacity="0.15"/>
+          <circle cx="75%" cy="60%" r="6" fill="#9933ff" opacity="0.9"/>
+          <circle cx="85%" cy="25%" r="3" fill="#6644ff" opacity="0.8"/>
+          <circle cx="95%" cy="55%" r="5" fill="#2244ff" opacity="0.9"/>
+        </g>
+      </svg>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#0d0a1a] via-[#0d0a1a]/80 to-transparent flex items-center px-12">
+        <div class="max-w-md">
+          <span class="inline-block px-3 py-1 brand-gradient-bg text-white rounded-full text-xs font-bold mb-4 tracking-wider">TRUSTED INFRASTRUCTURE</span>
+          <h4 class="text-3xl font-headline font-bold text-white">企业级安全架构</h4>
+          <p class="mt-2 text-gray-400">采用多重签名与离线存储技术，确保存储环境达到军事级标准。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑦ 联系我们 -->
+<section id="contact" class="bg-white"></section>
+
+<!-- ⑧ Footer -->
+<footer class="bg-[#f5f6f7] border-t border-gray-100 py-8">
+  <div class="max-w-7xl mx-auto px-8 flex flex-col items-center gap-3">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="28" height="28">
+        <defs>
+          <linearGradient id="footerGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#cc22ee"/>
+            <stop offset="100%" stop-color="#2244ff"/>
+          </linearGradient>
+        </defs>
+        <path d="M 82,80 L 82,198 Q 82,226 109,226 Q 136,226 136,198 L 136,80"
+              fill="none" stroke="url(#footerGrad)" stroke-width="28"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 136,80 L 258,80 L 258,188 Q 258,278 197,278 Q 136,278 136,226"
+              fill="none" stroke="url(#footerGrad)" stroke-width="28"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="ml-2 font-black brand-gradient-text font-headline tracking-tight">ULINX</span>
+    </div>
+    <p class="text-sm text-gray-400">© 2024 ULINX. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 700, once: true, offset: 60 });
+
+  // 悬浮滚动条跟随导航栏高度
+  const nav = document.querySelector('nav');
+  const ticker = document.getElementById('tickerFloat');
+  function updateTickerPos() {
+    ticker.style.top = nav.offsetHeight + 'px';
+  }
+  updateTickerPos();
+  window.addEventListener('resize', updateTickerPos);
+
+  // 收益计算器
+  const RATE = 0.035;
+  const input = document.getElementById('calcInput');
+  const slider = document.getElementById('calcSlider');
+  const dailyResult = document.getElementById('dailyResult');
+  const weeklyResult = document.getElementById('weeklyResult');
+
+  function calcEarnings(val) {
+    const daily = Math.round(val * RATE);
+    const weekly = daily * 7;
+    dailyResult.textContent = daily.toLocaleString('zh-CN');
+    weeklyResult.textContent = weekly.toLocaleString('zh-CN');
+  }
+
+  input.addEventListener('input', () => {
+    const val = Math.min(Math.max(Number(input.value) || 0, 0), 1000000);
+    slider.value = val;
+    calcEarnings(val);
+  });
+
+  slider.addEventListener('input', () => {
+    input.value = slider.value;
+    calcEarnings(Number(slider.value));
+  });
+</script>
+</body>
+</html>
