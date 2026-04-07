@@ -127,11 +127,15 @@
       <p class="font-body text-lg md:text-xl text-[#64748b] font-medium tracking-wide max-w-2xl mx-auto leading-relaxed">
         充币即挂单，快速撮合成交，高额返佣持续到账
       </p>
-      <div class="pt-6">
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="#earnings" class="group relative inline-flex items-center justify-center px-10 py-5 rounded-full brand-gradient-bg text-white font-semibold text-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_40px_rgba(204,34,238,0.25)]">
           立即了解
           <span class="material-symbols-outlined ml-2 transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
         </a>
+        <button onclick="if(typeof Tawk_API!=='undefined'&&Tawk_API.toggle){Tawk_API.toggle()}else{Tawk_API=Tawk_API||{};Tawk_API.onLoad=function(){Tawk_API.toggle()}}" class="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full border-2 border-[#7c3aed] text-[#7c3aed] font-semibold text-lg transition-all duration-300 hover:bg-[#7c3aed] hover:text-white">
+          <span class="material-symbols-outlined">chat</span>
+          立即咨询
+        </button>
       </div>
     </div>
   </div>
@@ -533,7 +537,10 @@
         <p class="text-gray-500">立即联系我们，加入 ULINX，享受极速撮合与安全保障。</p>
       </div>
       <div class="relative z-10 mt-8 md:mt-0">
-        <a href="#contact" class="inline-block px-8 py-4 rounded-xl font-bold brand-gradient-bg text-white hover:opacity-90 transition-all shadow-lg shadow-purple-200">立即联系我们</a>
+        <button onclick="if(typeof Tawk_API!=='undefined'&&Tawk_API.toggle){Tawk_API.toggle()}else{Tawk_API=Tawk_API||{};Tawk_API.onLoad=function(){Tawk_API.toggle()}}" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold brand-gradient-bg text-white hover:opacity-90 transition-all shadow-lg shadow-purple-200">
+          <span class="material-symbols-outlined">chat</span>
+          立即联系我们
+        </button>
       </div>
       <div class="absolute -right-24 -bottom-24 w-96 h-96 brand-gradient-bg opacity-5 rounded-full blur-3xl pointer-events-none"></div>
     </div>
@@ -627,16 +634,7 @@
 </section>
 
 <!-- ⑦ 联系我们 -->
-<section id="contact" class="py-24 bg-[#f7f5ff]">
-  <div class="max-w-3xl mx-auto px-6 text-center" data-aos="fade-up">
-    <h2 class="text-3xl md:text-5xl font-extrabold font-headline text-[#1e1b4b] mb-6">立即开始，联系我们</h2>
-    <p class="text-gray-500 text-lg leading-relaxed mb-10">有任何问题或想了解更多合作详情？点击右下角聊天按钮，客服随时在线为您解答。</p>
-    <button onclick="if(typeof Tawk_API!=='undefined'&&Tawk_API.toggle){Tawk_API.toggle()}else{Tawk_API=Tawk_API||{};Tawk_API.onLoad=function(){Tawk_API.toggle()}}" class="inline-flex items-center gap-3 px-10 py-5 rounded-full brand-gradient-bg text-white font-semibold text-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_20px_40px_rgba(204,34,238,0.25)]">
-      <span class="material-symbols-outlined">chat</span>
-      立即在线咨询
-    </button>
-  </div>
-</section>
+<section id="contact" class="bg-white"></section>
 
 <!-- ⑧ Footer -->
 <footer class="bg-[#0d0a1a] border-t border-white/10 py-8">
